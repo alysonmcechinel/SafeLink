@@ -1,0 +1,23 @@
+{
+    "name": "My extension",
+    "description": "Minha primeira extensão",
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "author": "Dev Alyson",
+    "icons": { 
+        "16": "Img/security.png",
+        "48": "Img/security.png",
+        "128": "Img/security.png" 
+  },
+    "permissions": [
+        "activeTab", 
+        "scripting",
+        "webRequest",
+        "tabs",
+        "clipboardWrite",
+        "clipboardRead"
+    ],
+    "action":{
+        "default_popup": "../Views/index.html"
+    }
+}
