@@ -8,14 +8,19 @@
         "16": "Img/security.png",
         "48": "Img/security.png",
         "128": "Img/security.png" 
-  },
+    },
+    "host_permissions": [
+        "*://*/*",
+        "<all_urls>"
+    ],
     "permissions": [
         "activeTab", 
         "scripting",
         "webRequest",
         "tabs",
         "clipboardWrite",
-        "clipboardRead"
+        "clipboardRead",
+        "background"
     ],
     "action":{
         "default_popup": "../Views/index.html"

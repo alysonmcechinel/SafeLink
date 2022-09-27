@@ -1,28 +1,61 @@
 const form = document.querySelector('form');
 const input = document.querySelector('.inputImgUrl');
-//const urlAtual = document.querySelector('.urlAtual');
-//window.location.href;
+var teste = document.querySelector('#result');
 
-//<label>A url da pagina atual é:</label>
+document.querySelector('#verification').addEventListener('click', async (event) => {
+    
+    event.preventDefault();
 
-document.addEventListener('DOMContentLoaded', function () {
+    try{
+        const report = await getInfoUrl();
+        alert(report);
+    } catch(e) {
+        alert(e);
+    }
 
-    document.querySelector('#verification').addEventListener('click', function () {
-
-        chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
-            let url = tabs[0].url;
-            document.querySelector('#result').innerHTML = url;
-            console.log('chega aqui?');
-            $.ajax({
-                url: 'safeBrowsing',
-                type: 'POST',
-                success: function (data) {
-                    alert(data);
-                }
-            });
-        });
-    });
 });
+
+async function getInfoUrl(){
+
+    let TOKEN = 'key=AIzaSyDO0kRSi1Dcopt-Cd_9G8vKkHAcpWz-S_s';
+    let URL = 'https://safebrowsing.googleapis.com/v4/threatMatches:find?';
+
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    let payload =  
+    {
+        "client": {
+            "clientId": "teste",
+            "clientVersion": "0.0.1"
+          },
+          "threatInfo": {
+            "threatTypes": [ "SOCIAL_ENGINEERING", "MALWARE", "UNWANTED_SOFTWARE", "POTENTIALLY_HARMFUL_APPLICATION" ],
+            "platformTypes": [ "WINDOWS", "CHROME", "ANDROID", "ANY_PLATFORM" ],
+            "threatEntryTypes": [ "URL" ],
+            "threatEntries": [
+              {"url": tab.url}
+            ]
+          }
+    };
+
+    const response = await fetch(URL+TOKEN, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 
+            "Content-type": "application/json;charset=UTF-8"
+        }                
+    });
+
+    const res = await response.json();
+    
+    var objName = Object.getOwnPropertyNames(res);
+    
+    if(objName == 'matches'){
+        alert('tem coisa errada ai');
+    }
+
+    return false;
+}
 
 /*--------------------------------------------------------------------------*/
 const replaceImages = (url) => {
@@ -31,15 +64,22 @@ const replaceImages = (url) => {
 }
 
 form.addEventListener('submit', async (event) => {
-
+    
     event.preventDefault();
 
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        function: replaceImages,
-        args: [input.value]
+        function: verificationSafeBrowsing,
+        args: [ input.value ]
     });
 });
 
+/*--------------------------------------------------------------------------*/
+
+function verificationSafeBrowsing() {
+
+    
+
+}
