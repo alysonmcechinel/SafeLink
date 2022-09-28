@@ -1,26 +1,35 @@
 const form = document.querySelector('form');
 const input = document.querySelector('.inputImgUrl');
-var teste = document.querySelector('#result');
 
 document.querySelector('#verification').addEventListener('click', async (event) => {
     
     event.preventDefault();
 
     try{
-        const report = await getInfoUrl();
-        alert(report);
+        const report = await verificationSafeBrowsing();
+        if(!report){
+            alert(report);
+        } 
+        else {
+            alert(report);
+        }
+        
     } catch(e) {
         alert(e);
     }
 
 });
 
-async function getInfoUrl(){
+async function verificationSafeBrowsing(urlTab){
 
     let TOKEN = 'key=AIzaSyDO0kRSi1Dcopt-Cd_9G8vKkHAcpWz-S_s';
     let URL = 'https://safebrowsing.googleapis.com/v4/threatMatches:find?';
 
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if(urlTab == null){
+        
+        let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        urlTab = tab.url;
+    }
 
     let payload =  
     {
@@ -33,7 +42,7 @@ async function getInfoUrl(){
             "platformTypes": [ "WINDOWS", "CHROME", "ANDROID", "ANY_PLATFORM" ],
             "threatEntryTypes": [ "URL" ],
             "threatEntries": [
-              {"url": tab.url}
+              {"url": urlTab }
             ]
           }
     };
@@ -52,34 +61,35 @@ async function getInfoUrl(){
     
     if(objName == 'matches'){
         alert('tem coisa errada ai');
+        return true;
     }
 
     return false;
 }
 
+
+form.addEventListener('submit', async (event) => {
+    
+    event.preventDefault();
+
+    try{
+        const report = await verificationSafeBrowsing(input.value);
+        if(!report){
+            alert(report);
+        } else {
+            alert(report);
+        }
+    } catch(e) {
+        alert(e);
+    }
+    
+});
 /*--------------------------------------------------------------------------*/
 const replaceImages = (url) => {
     const images = document.querySelectorAll('img');
     images.forEach((image) => image.src = url);
 }
 
-form.addEventListener('submit', async (event) => {
-    
-    event.preventDefault();
 
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: verificationSafeBrowsing,
-        args: [ input.value ]
-    });
-});
 
 /*--------------------------------------------------------------------------*/
-
-function verificationSafeBrowsing() {
-
-    
-
-}
