@@ -7,10 +7,11 @@ document.querySelector('#verification').addEventListener('click', async (event) 
 
     try{
         const report = await verificationSafeBrowsing();
-        if(!report){
+        if(report){
             alert(report);
         } 
         else {
+            report = await verificationVT();
             alert(report);
         }
         
@@ -67,6 +68,35 @@ async function verificationSafeBrowsing(urlTab){
     return false;
 }
 
+async function verificationVT(urlTab){
+
+    if(urlTab == null){
+        
+        let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        urlTab = tab.url;
+    }
+
+    const options = {method: 'GET', headers: {accept: 'application/json'}};
+    //https://www.virustotal.com/vtapi/v2/url/report?apikey=c1531588888561ac985d9ff814e68434a818ec94f7d4f909cbc9386b82309a0d&allinfo=false&scan=0
+    //https://www.virustotal.com/vtapi/v2/url/report?apikey=c1531588888561ac985d9ff814e68434a818ec94f7d4f909cbc9386b82309a0d&resource=https%3A%2F%2Fwww.dogapartswp.sw6.llocweb.info%2Fedd%2Findex2.html&allinfo=false&scan=0
+    fetch('https://www.virustotal.com/vtapi/v2/url/report?apikey=c1531588888561ac985d9ff814e68434a818ec94f7d4f909cbc9386b82309a0d&resource=https%253A%252F%252Fwww.dogapartswp.sw6.llocweb.info%252Fedd%252Findex2.html&allinfo=false&scan=0', options)
+        .then(response => response.json())
+        //.then(response => console.log(response))
+        .catch(err => console.error(err));
+
+    var obj = JSON.stringify(response);
+
+    alert(obj);
+    alert(obj.positives);
+    if(obj.positives > 0){
+        alert('testezim');
+        return true;
+    }
+    
+
+    alert('chegou');
+    return false;
+}
 
 form.addEventListener('submit', async (event) => {
     
@@ -89,7 +119,3 @@ const replaceImages = (url) => {
     const images = document.querySelectorAll('img');
     images.forEach((image) => image.src = url);
 }
-
-
-
-/*--------------------------------------------------------------------------*/
