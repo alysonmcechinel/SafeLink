@@ -1,7 +1,7 @@
 {
-    "name": "My extension",
-    "description": "Minha primeira extensão",
-    "version": "0.0.1",
+    "name": "Safe link",
+    "description": "Extensão para verificar se uma url/link é seguro",
+    "version": "0.1.1",
     "manifest_version": 3,
     "author": "Dev Alyson",
     "icons": { 

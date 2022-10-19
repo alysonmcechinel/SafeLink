@@ -10,17 +10,27 @@
     </head>
     <body>       
 
-        <form>
-            <input type="text" class="inputImgUrl" placeholder="Image URL">
-            <button class="button">Go!</button>
-        </form>
+        <header>
+            <img src="../Img/security.png" height="13px" width="13px">
+            <b>Safe link</b>
+        </header>
+        <main class="principal">
+            <form class="input-group">
+                <input type="text" id="url" required class="input">
+                <label for="url" class="input-label">URL para verificação</label>
+                <button class="button">Verificar</button>
+            </form>
+    
+            <div class="secundaria">
+                <h3 class="text-center">-- OU --</h3>
+            </div>
+    
+            <button id="verification" class="button">Verificar guia atual</button>
+        </main>
         
-        <button id="verification" class="button">Verificar url</button>
-        <div id="result"></div>        
+        <div id="result"></div>
         
         <script src="../script/script.js"></script>
         
     </body>
 </html>
-
-
