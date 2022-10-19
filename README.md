@@ -9,6 +9,6 @@ Adicionar a extensão
     <li>No canto superior direito, ative o <b>Modo do desenvolvedor.</b></li>
     <li>Clique em <b>Carregar sem compactação.</b></li>
     <li>Encontre e selecione a pasta da extensão.</li>
-    <li>Abra uma nova guia no Chrome > clique em <b>Apps</b> > clique no app ou extensão. Verifique se ele foi carregado e funciona corretamente.</li>
+    <li>Abra uma nova guia no Chrome > clique em <b>Apps</b> > clique na extensão. Verifique se ele foi carregado e funciona corretamente.</li>
   </ol>
 </div>
