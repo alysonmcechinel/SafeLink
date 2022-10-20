@@ -6,10 +6,10 @@ form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     try{
-        alert(input)
-        const verificationSB = await verificationSafeBrowsing(input.value);
+        let url = new URL(input.value);
+        const verificationSB = await verificationSafeBrowsing(url);
         if(!verificationSB){
-            const verificationVT = await verificationVirusTotal(input.value);
+            const verificationVT = await verificationVirusTotal(url);
             if(!verificationVT){
                 alert('Nenhum perigo detectado nessa url');
             };
@@ -82,7 +82,7 @@ async function verificationSafeBrowsing(urlTab){
     });
     
     if(objFilter?.length > 0){
-        alert('tem coisa errada ai');
+        alert('Uma ameaça foi detectada nessa URL');
         return true;
     }
 
@@ -109,7 +109,7 @@ async function verificationVirusTotal(urlTab){
 
     var obj = JSON.parse(JSON.stringify(response));
     if(obj.positives > 0){
-        alert('tem coisa errada ai');
+        alert('Uma ameaça foi detectada nessa URL');
         return true;
     }   
 
